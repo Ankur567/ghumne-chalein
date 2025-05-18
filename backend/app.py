@@ -62,5 +62,6 @@ def getTripByHomeLocation(home_location):
 def deleteAllTrips():
     return delete_all_trips()
 
+port = int(os.environ.get("PORT", 5000))
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
