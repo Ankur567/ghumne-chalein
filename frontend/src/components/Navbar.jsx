@@ -3,7 +3,6 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
@@ -22,6 +21,7 @@ import {
 import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { logIn } from "../services/middle-ware";
+import { Link } from "react-router-dom";
 
 export default function NavbarCustom(props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -114,7 +114,7 @@ export default function NavbarCustom(props) {
         </NavbarItem>
         {props.type === "dashboard" && (
           <NavbarItem isActive>
-            <Link aria-current="page" color="secondary" href="/addTrip">
+            <Link aria-current="page" color="secondary" to="/addTrip">
               Add Trip
             </Link>
           </NavbarItem>
@@ -167,7 +167,7 @@ export default function NavbarCustom(props) {
             </Button>
           </NavbarItem>
           <NavbarItem>
-            <Button as={Link} color="primary" href="/signup" variant="flat">
+            <Button as={Link} color="primary" to="/signup" variant="flat">
               Sign Up
             </Button>
           </NavbarItem>
