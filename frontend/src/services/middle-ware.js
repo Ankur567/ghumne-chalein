@@ -26,4 +26,12 @@ export const getAllTrips = async () => {
 
 export const getTripByHomeLocation = async (homeLocation) => {
   return await api.get(`/getTripByHomeLocation/${homeLocation}`);
-}
+};
+
+export const getGeiminiResponse = async (history) => {
+  return await api.post("/askGemini", history);
+};
+
+export const createCheckoutSession = async () => {
+  return await api.post("/createCheckoutSession");
+};

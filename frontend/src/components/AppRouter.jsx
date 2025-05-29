@@ -20,6 +20,7 @@ const AppRouter = () => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("token");
+    localStorage.removeItem("chatHistory");
     navigate("/");
   };
 

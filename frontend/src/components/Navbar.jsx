@@ -68,26 +68,33 @@ export default function NavbarCustom(props) {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col items-center gap-1 text-xl font-semibold">
                 Log In to your account
               </ModalHeader>
-              <ModalBody>
+
+              <ModalBody className="flex flex-col gap-4">
                 <input
                   type="text"
                   name="username"
                   placeholder="Username"
                   onChange={handleChange}
-                  className="mb-2 p-2 border border-gray-300 rounded"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <input
                   type="password"
                   name="password"
                   placeholder="Password"
                   onChange={handleChange}
-                  className="mb-2 p-2 border border-gray-300 rounded"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
+
+                {/* 👇 Small Ad Message */}
+                <div className="text-sm text-gray-500 italic text-center">
+                  ✨ Unlock exclusive travel deals by logging in!
+                </div>
               </ModalBody>
-              <ModalFooter>
+
+              <ModalFooter className="flex justify-end gap-3">
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>

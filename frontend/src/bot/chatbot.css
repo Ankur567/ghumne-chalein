@@ -1,0 +1,14 @@
+.react-chatbot-kit-chat-container {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* translucent white */
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important; /* Safari support */
+  box-shadow: none !important;
+  border-radius: 16px;
+}
+
+/* Inner container blur (optional) */
+.react-chatbot-kit-chat-inner-container {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}   
