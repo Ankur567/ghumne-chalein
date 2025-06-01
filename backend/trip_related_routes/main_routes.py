@@ -43,6 +43,13 @@ def get_trip_by_home_location(home_location):
         trips_list.append(trip)
     return jsonify({"trips": trips_list}), 200
 
+def get_trip_by_id(tripId):
+    trip = trips_collection.find_one({"_id": ObjectId(tripId)})
+    if trip:
+        trip["_id"] = str(trip["_id"])
+        trip["user_id"] = str(trip["user_id"])
+    return jsonify({"trip": trip}), 200
+
 def delete_all_trips():
     trips_collection.delete_many({})
     return jsonify({"message": "All trips deleted"}), 200

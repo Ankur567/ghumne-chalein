@@ -8,9 +8,9 @@ import os
 from authlib.integrations.flask_client import OAuth
 from user_related_routes.auth_routes import signup, signin, check_token
 from user_related_routes.main_routes import dashboard
-from trip_related_routes.main_routes import add_trip, get_all_trips, delete_all_trips, get_trip_by_home_location
+from trip_related_routes.main_routes import add_trip, get_all_trips, delete_all_trips, get_trip_by_home_location, get_trip_by_id
 from gemini_routes.gemini import ask_gemini
-from payment_routes.stripe_route import create_checkout_session
+from payment_routes.stripe_route import create_checkout_session, change_subscribe_status
 
 load_dotenv() 
 
@@ -61,6 +61,11 @@ def getAllTrips():
 def getTripByHomeLocation(home_location):
     return get_trip_by_home_location(home_location)
 
+@app.route("/getTripById/<tripId>", methods=["GET"])
+@jwt_required()
+def getTripById(tripId):
+    return get_trip_by_id(tripId)
+
 @app.route("/deleteAllTrips", methods=["DELETE"])
 def deleteAllTrips():
     return delete_all_trips()
@@ -71,8 +76,14 @@ def askGemini():
     return ask_gemini()
 
 @app.route('/createCheckoutSession', methods=['POST'])
+@jwt_required()
 def createCheckoutSession():
     return create_checkout_session()
+
+@app.route('/changeSubscribeStatus', methods=['POST'])
+@jwt_required()
+def changeSubscribeStatus():
+    return change_subscribe_status()
 
 port = int(os.environ.get("PORT", 5000))
 if __name__ == "__main__":

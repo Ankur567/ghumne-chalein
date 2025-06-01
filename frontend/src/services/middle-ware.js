@@ -28,10 +28,18 @@ export const getTripByHomeLocation = async (homeLocation) => {
   return await api.get(`/getTripByHomeLocation/${homeLocation}`);
 };
 
+export const getTripById = async (tripId) => {
+  return await api.get(`/getTripById/${tripId}`);
+};
+
 export const getGeiminiResponse = async (history) => {
   return await api.post("/askGemini", history);
 };
 
 export const createCheckoutSession = async () => {
   return await api.post("/createCheckoutSession");
+};
+
+export const changeSubscribeStatus = async () => {
+  return await api.post("/changeSubscribeStatus");
 };

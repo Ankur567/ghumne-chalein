@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import React, { useState } from "react";
 import { logIn } from "../services/middle-ware";
 import { Link } from "react-router-dom";
+import DarkModeToggle from "./DarkModeToggle";
 
 export default function NavbarCustom(props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -121,7 +122,10 @@ export default function NavbarCustom(props) {
         </NavbarItem>
         {props.type === "dashboard" && (
           <NavbarItem isActive>
-            <Link aria-current="page" color="secondary" to="/addTrip">
+            <Link
+              to="/addTrip"
+              className="text-violet-600 hover:text-violet-800 font-medium"
+            >
               Add Trip
             </Link>
           </NavbarItem>
@@ -134,6 +138,7 @@ export default function NavbarCustom(props) {
       </NavbarContent>
       {props.type === "dashboard" ? (
         <NavbarContent as="div" justify="end" className="pr-10">
+          <DarkModeToggle />
           <p>{props.name}</p>
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
@@ -168,8 +173,9 @@ export default function NavbarCustom(props) {
         </NavbarContent>
       ) : (
         <NavbarContent justify="end">
+          <DarkModeToggle />
           <NavbarItem className="hidden lg:flex">
-            <Button onPress={onOpen} variant="light">
+            <Button onPress={onOpen} variant="bordered" color="primary">
               Login
             </Button>
           </NavbarItem>

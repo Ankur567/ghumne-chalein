@@ -24,6 +24,7 @@ def signup():
         "email": email,
         "password": hashed_password,
         "homeLocation": homeLocation,
+        "isSubscribed": False,
         "createdAt": dt.datetime.now(),
     }).inserted_id
 
@@ -36,7 +37,6 @@ def signin():
     username = data.get("username")
     password = data.get("password")
     user = get_user_by_username(username)
-    print(f"Password valid: {check_password_hash(user['password'], password)}")
     if not user or not check_password_hash(user["password"], password):
         return jsonify({"msg": "Invalid credentials"}), 401
 

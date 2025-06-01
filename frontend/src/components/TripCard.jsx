@@ -2,9 +2,23 @@ import { Card, CardHeader, CardFooter, Button } from "@heroui/react";
 import { Image } from "@imagekit/react";
 import { months } from "../assets/months";
 import { createCheckoutSession } from "../services/middle-ware";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-export default function TripCard({ trip }) {
+export default function TripCard({ trip, user }) {
+  const navigate = useNavigate();
   const makePayment = async () => {
+    if (localStorage.getItem("token") === null) {
+      toast.info("Please login to know more", {
+        position: "bottom-right",
+      });
+      return;
+    }
+    if (user.isSubscribed) {
+      navigate(`/tripDetails/${trip._id}`);
+      return;
+    }
+
     try {
       const response = await createCheckoutSession();
       console.log(response.data);
@@ -17,6 +31,7 @@ export default function TripCard({ trip }) {
       console.error("Error creating checkout session:", error);
     }
   };
+
   return (
     <Card isFooterBlurred className="w-full h-[300px]">
       <CardHeader className="absolute z-10 top-1 flex-col items-start">

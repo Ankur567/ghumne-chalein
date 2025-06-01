@@ -41,7 +41,7 @@ const Dashboard = (props) => {
   }, [user]);
 
   return (
-    <>
+    <div>
       <NavbarCustom
         name={user?.username || ""}
         email={user?.email || ""}
@@ -50,15 +50,17 @@ const Dashboard = (props) => {
       />
 
       <div className="p-5">
-        <h1 className="text-3xl text-left mt-5">
+        <h1 className="text-3xl font-semibold text-left mt-6 mb-4 leading-snug">
           Trips starting from your home location{" "}
-          <span className="text-secondary">{user?.homeLocation || ""}</span>
+          <span className="text-violet-600 font-bold">
+            {user?.homeLocation || ""}
+          </span>
         </h1>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 min-h-screen">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 min-h-screen [grid-auto-rows:300px]">
         {trips.map((trip) => (
-          <TripCard key={trip._id} trip={trip} />
+          <TripCard key={trip._id} trip={trip} user={user} />
         ))}
       </div>
       <button
@@ -77,7 +79,7 @@ const Dashboard = (props) => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
