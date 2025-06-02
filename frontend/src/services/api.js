@@ -2,8 +2,8 @@ import axios from "axios";
 
 // Creating an axios instance with a base URL and default headers
 const api = axios.create({
-  baseURL: "https://ghumne-chalein-bckend.onrender.com",
-  // baseURL: "http://172.20.10.3:5002",
+  // baseURL: "https://ghumne-chalein-bckend.onrender.com",
+  baseURL: "http://172.20.10.3:5002",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

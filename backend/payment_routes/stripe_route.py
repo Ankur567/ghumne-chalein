@@ -10,7 +10,7 @@ load_dotenv()
 
 stripe.api_key = os.getenv('STRIPE_API_KEY')
 
-YOUR_DOMAIN = 'http://localhost:5173/'
+YOUR_DOMAIN = os.getenv("FRONTEND_DOMAIN", "http://localhost:5173/")
 
 def create_checkout_session():
     try:
