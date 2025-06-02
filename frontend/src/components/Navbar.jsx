@@ -23,6 +23,7 @@ import React, { useState } from "react";
 import { logIn } from "../services/middle-ware";
 import { Link } from "react-router-dom";
 import DarkModeToggle from "./DarkModeToggle";
+import { useNavigate } from "react-router-dom";
 
 export default function NavbarCustom(props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -62,6 +63,10 @@ export default function NavbarCustom(props) {
   };
   const handleLogout = () => {
     props.logout();
+  };
+  const navigate = useNavigate();
+  const openRequests = () => {
+    navigate("/viewQueryRequests");
   };
   return (
     <Navbar maxWidth="screen">
@@ -161,7 +166,9 @@ export default function NavbarCustom(props) {
               <DropdownItem key="team_settings">Team Settings</DropdownItem>
               <DropdownItem key="analytics">Analytics</DropdownItem>
               <DropdownItem key="system">System</DropdownItem>
-              <DropdownItem key="configurations">Configurations</DropdownItem>
+              <DropdownItem key="configurations" onClick={openRequests}>
+                Requests
+              </DropdownItem>
               <DropdownItem key="help_and_feedback">
                 Help & Feedback
               </DropdownItem>

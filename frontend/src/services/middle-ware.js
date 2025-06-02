@@ -43,3 +43,19 @@ export const createCheckoutSession = async () => {
 export const changeSubscribeStatus = async () => {
   return await api.post("/changeSubscribeStatus");
 };
+
+export const sendrequestToOwner = async ({ tripId, userId }) => {
+  return await api.post("/sendrequestToOwner", { tripId, userId });
+};
+
+export const acceptQueryRequest = async ({ from_user_id, trip_id }) => {
+  return await api.post("/acceptQueryRequest", { from_user_id, trip_id });
+};
+
+export const fetchQueryRequests = async () => {
+  return await api.get("/fetchQueryRequests");
+};
+
+export const getOwnerDetails = async ({ user_id, trip_id }) => {
+  return await api.post("/getOwnerDetails", { user_id, trip_id });
+};

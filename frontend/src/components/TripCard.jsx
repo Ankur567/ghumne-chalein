@@ -15,10 +15,9 @@ export default function TripCard({ trip, user }) {
       return;
     }
     if (user.isSubscribed) {
-      navigate(`/tripDetails/${trip._id}`);
+      navigate(`/tripDetails/${trip._id}`, { state: { user } });
       return;
     }
-
     try {
       const response = await createCheckoutSession();
       console.log(response.data);

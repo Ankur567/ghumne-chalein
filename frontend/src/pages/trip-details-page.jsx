@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getTripById } from "../services/middle-ware";
+import {
+  getOwnerDetails,
+  getTripById,
+  sendrequestToOwner,
+} from "../services/middle-ware";
 import {
   Play,
   Plus,
@@ -8,29 +12,54 @@ import {
   Users,
   MapPin,
   Calendar,
-  DollarSign,
   Home,
   IndianRupee,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Image } from "@imagekit/react";
+import { useLocation } from "react-router-dom";
+import { Button } from "@heroui/button";
 
 const TripDetailsPage = () => {
   const { tripId } = useParams();
+  const location = useLocation();
+  const user = location.state?.user;
+  console.log(user)
   const navigate = useNavigate();
   const [trip, setTrip] = useState({});
+  const [hasRequested, setHasRequested] = useState(false);
   useEffect(() => {
-    async function fetchTrip() {
+    async function fetchTripAndDetails() {
       try {
         const response = await getTripById(tripId);
-        setTrip(response.data.trip);
+        const tripData = response.data.trip;
+        setTrip(tripData);
+        if (tripData?.user_id) {
+          const ownerResponse = await getOwnerDetails({
+            user_id: tripData.user_id,
+            trip_id: tripId,
+          });
+          console.log("Owner details:", ownerResponse.data);
+        }
       } catch (error) {
-        console.error("Failed to fetch trip", error);
+        console.error("Failed to fetch trip or owner details", error);
       }
     }
-    fetchTrip();
+    fetchTripAndDetails();
   }, [tripId]);
   const [selectedTab, setSelectedTab] = useState("overview");
+  const sendRequest = async () => {
+    try {
+      const response = await sendrequestToOwner({
+        tripId: tripId,
+        userId: trip.user_id,
+      });
+      setHasRequested(true);
+      console.log(response.data.message);
+    } catch (error) {
+      console.log("send request error");
+    }
+  };
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <div className="absolute inset-0 h-screen">
@@ -93,12 +122,14 @@ const TripDetailsPage = () => {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex gap-4 mb-8">
-                  <button className="bg-white text-black px-8 py-3 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-200 transition-all transform hover:scale-105">
-                    <Play size={20} fill="black" />
-                    Start Planning
-                  </button>
+                  <Button
+                    className="bg-white text-black px-8 py-3 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-200 transition-all transform hover:scale-105"
+                    onPress={sendRequest}
+                    isDisabled={hasRequested}
+                  >
+                    Request Owner
+                  </Button>
                   <button className="bg-gray-700 bg-opacity-80 text-white px-6 py-3 rounded-full hover:bg-opacity-100 transition-all">
                     <Plus size={20} />
                   </button>

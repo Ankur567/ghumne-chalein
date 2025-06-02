@@ -12,3 +12,7 @@
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
 }   
+
+.react-chatbot-kit-chat-input {
+  border-top: 0px
+}

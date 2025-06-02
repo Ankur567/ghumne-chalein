@@ -11,6 +11,7 @@ from user_related_routes.main_routes import dashboard
 from trip_related_routes.main_routes import add_trip, get_all_trips, delete_all_trips, get_trip_by_home_location, get_trip_by_id
 from gemini_routes.gemini import ask_gemini
 from payment_routes.stripe_route import create_checkout_session, change_subscribe_status
+from user_related_routes.know_more_routes import send_request_to_owner, fetch_query_requests, accept_query_request, get_owner_details
 
 load_dotenv() 
 
@@ -84,6 +85,26 @@ def createCheckoutSession():
 @jwt_required()
 def changeSubscribeStatus():
     return change_subscribe_status()
+
+@app.route('/sendrequestToOwner', methods=['POST'])
+@jwt_required()
+def sendrequestToOwner():
+    return send_request_to_owner()
+
+@app.route('/fetchQueryRequests', methods=['GET'])
+@jwt_required()
+def fetchQueryRequests():
+    return fetch_query_requests()
+
+@app.route('/acceptQueryRequest', methods=['POST'])
+@jwt_required()
+def acceptQueryRequest():
+    return accept_query_request()
+
+@app.route('/getOwnerDetails', methods=['POST'])
+@jwt_required()
+def getOwnerDetails():
+    return get_owner_details()
 
 port = int(os.environ.get("PORT", 5000))
 if __name__ == "__main__":

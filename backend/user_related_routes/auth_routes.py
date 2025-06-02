@@ -13,9 +13,10 @@ def signup():
     email = data.get("email")
     password = data.get("password")
     homeLocation = data.get("homeLocation")
+    phone = data.get("phone")
 
     if get_user_by_username(username):
-        return jsonify({"msg": "Username already exists"}), 409
+        return jsonify({"msg": "Username already exists"}), 400
 
     hashed_password = generate_password_hash(password)
     user_id = users_collection.insert_one({
@@ -24,6 +25,7 @@ def signup():
         "email": email,
         "password": hashed_password,
         "homeLocation": homeLocation,
+        "phone": phone,
         "isSubscribed": False,
         "createdAt": dt.datetime.now(),
     }).inserted_id

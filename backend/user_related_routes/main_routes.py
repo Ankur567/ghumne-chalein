@@ -11,10 +11,16 @@ def dashboard():
     if not user:
         return jsonify({"message": "User not found"}), 404
     user["_id"] = str(user["_id"])
-    trips = trips_collection.find()
-    trips_list = []
-    for trip in trips:
-        trip["_id"] = str(trip["_id"])
-        trip["user_id"] = str(trip["user_id"])
-        trips_list.append(trip)
-    return jsonify({"user_data": user, "trips": trips_list}), 200
+    if "receivedQueryRequests" in user:
+        for req in user["receivedQueryRequests"]:
+            if "from_user_id" in req:
+                req["from_user_id"] = str(req["from_user_id"])
+            if "trip_id" in req:
+                req["trip_id"] = str(req["trip_id"])
+    if "sentQueryRequests" in user:
+        for req in user["sentQueryRequests"]:
+            if "to_user_id" in req:
+                req["to_user_id"] = str(req["to_user_id"])
+            if "trip_id" in req:
+                req["trip_id"] = str(req["trip_id"])
+    return jsonify({"user_data": user}), 200

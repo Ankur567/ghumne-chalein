@@ -10,6 +10,7 @@ import ThankYouPage from "../pages/thankyou-page";
 import PaymentCancelPage from "../pages/payment-cancel-page";
 import TripDetailsPage from "../pages/trip-details-page";
 import MapView from "./Mapbox";
+import QueryRequestsPage from "../pages/query-requests-page";
 
 const AppRouter = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -62,6 +63,7 @@ const AppRouter = () => {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/addtrip" element={<AddTripPage />} />
       <Route path="/mapview" element={<MapView />} />
+      <Route path="/viewQueryRequests" element={<QueryRequestsPage />} />
     </Routes>
   );
 };

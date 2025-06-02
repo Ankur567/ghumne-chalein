@@ -21,7 +21,7 @@ export const travelDestinations = [
   { key: "Kumarakom", label: "Kumarakom" },
   { key: "Pondicherry", label: "Pondicherry" },
   { key: "Mahabalipuram", label: "Mahabalipuram" },
-  { key: "Andaman Islands", label: "Andaman Islands" },
+  { key: "Andaman", label: "Andaman" },
   { key: "Lakshadweep", label: "Lakshadweep" },
   { key: "Goa", label: "Goa" },
   { key: "Udaipur", label: "Udaipur" },
