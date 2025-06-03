@@ -59,3 +59,7 @@ export const fetchQueryRequests = async () => {
 export const getOwnerDetails = async ({ user_id, trip_id }) => {
   return await api.post("/getOwnerDetails", { user_id, trip_id });
 };
+
+export const checkTripRequested = async (tripId) => {
+  return await api.get(`/checkTripRequested/${tripId}`);
+};

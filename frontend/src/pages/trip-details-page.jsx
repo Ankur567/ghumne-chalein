@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  checkTripRequested,
   getOwnerDetails,
   getTripById,
   sendrequestToOwner,
@@ -19,27 +20,46 @@ import { useNavigate } from "react-router-dom";
 import { Image } from "@imagekit/react";
 import { useLocation } from "react-router-dom";
 import { Button } from "@heroui/button";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@heroui/react";
 
 const TripDetailsPage = () => {
   const { tripId } = useParams();
   const location = useLocation();
   const user = location.state?.user;
-  console.log(user)
+  console.log(user);
   const navigate = useNavigate();
   const [trip, setTrip] = useState({});
+  const [ownerDetails, setOwnerDetails] = useState({});
   const [hasRequested, setHasRequested] = useState(false);
+  const [hasAccepted, setHasAccepted] = useState(false);
   useEffect(() => {
     async function fetchTripAndDetails() {
       try {
         const response = await getTripById(tripId);
         const tripData = response.data.trip;
         setTrip(tripData);
+        const requestResponse = await checkTripRequested(tripId);
+        setHasRequested(requestResponse.data.requested);
         if (tripData?.user_id) {
-          const ownerResponse = await getOwnerDetails({
-            user_id: tripData.user_id,
-            trip_id: tripId,
-          });
-          console.log("Owner details:", ownerResponse.data);
+          try {
+            const ownerResponse = await getOwnerDetails({
+              user_id: tripData.user_id,
+              trip_id: tripId,
+            });
+            setHasAccepted(true);
+            setOwnerDetails(ownerResponse.data);
+            console.log("Owner details:", ownerResponse.data);
+          } catch (error) {
+            setHasAccepted(false);
+            console.log("Owner has not accepted yet");
+          }
         }
       } catch (error) {
         console.error("Failed to fetch trip or owner details", error);
@@ -60,6 +80,7 @@ const TripDetailsPage = () => {
       console.log("send request error");
     }
   };
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <div className="absolute inset-0 h-screen">
@@ -123,13 +144,48 @@ const TripDetailsPage = () => {
                 </div>
 
                 <div className="flex gap-4 mb-8">
-                  <Button
-                    className="bg-white text-black px-8 py-3 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-200 transition-all transform hover:scale-105"
-                    onPress={sendRequest}
-                    isDisabled={hasRequested}
-                  >
-                    Request Owner
-                  </Button>
+                  {hasAccepted ? (
+                    <>
+                      <Button
+                        className="bg-white text-black px-8 py-3 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-200 transition-all transform hover:scale-105"
+                        onPress={onOpen}
+                      >
+                        Get Contacts
+                      </Button>
+                      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                        <ModalContent>
+                          {(onClose) => (
+                            <>
+                              <ModalHeader className="flex flex-col gap-1">
+                                Owner Contact Details
+                              </ModalHeader>
+                              <ModalBody>
+                                <p>Email Id: {ownerDetails.email}</p>
+                                <p>Phone Number: {ownerDetails.phone}</p>
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button
+                                  color="danger"
+                                  variant="flat"
+                                  onPress={onClose}
+                                >
+                                  Close
+                                </Button>
+                              </ModalFooter>
+                            </>
+                          )}
+                        </ModalContent>
+                      </Modal>
+                    </>
+                  ) : (
+                    <Button
+                      className="bg-white text-black px-8 py-3 rounded-md font-semibold flex items-center gap-2 hover:bg-gray-200 transition-all transform hover:scale-105"
+                      onPress={sendRequest}
+                      isDisabled={hasRequested}
+                    >
+                      Request Owner
+                    </Button>
+                  )}
                   <button className="bg-gray-700 bg-opacity-80 text-white px-6 py-3 rounded-full hover:bg-opacity-100 transition-all">
                     <Plus size={20} />
                   </button>
